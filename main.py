@@ -41,6 +41,19 @@ class MyWidget(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+        conn = sqlite3.connect('coffee')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM coffe_sorts")
+        rows = cursor.fetchall()
+
+        self.tableWidget.setRowCount(len(rows))
+
+        for i, row in enumerate(rows):
+            for j, value in enumerate(row):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(value)))
+
+        conn.close()
+
 
 
 
